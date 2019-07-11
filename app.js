@@ -23,7 +23,7 @@ app.use('/upload', uploadRouter);
 module.exports = app;
 
 app.post('/Register', (req, res) => {
-    console.log('ok')
+    console.log(req.body)
     User.findOne({ username: req.body.username }).then(function (user) {
         console.log(user)
         if (user) {
@@ -36,6 +36,18 @@ app.post('/Register', (req, res) => {
         }
     });
 });
+
+app.put('/profileup', (req, res) => {
+    console.log(req.body)
+    User.findByIdAndUpdate(req.body._id,req.body).then(function (user) {
+        console.log(user)
+        if (user) {
+         res.json("success");
+            }
+        });
+});
+
+
 
 
 
@@ -94,6 +106,15 @@ app.post('/hiredata', function (req, res) {
             res.json(hire);
         })
 })
+app.post('/completedata', function (req, res) {
+    console.log(req.body);
+    Hire.find({hiredetail:'Complete',mechanicid:req.body.mechanicid})
+        .populate('Userid')
+        .exec()
+        .then(function (hire) {
+            res.json(hire);
+        })
+})
 
 app.put('/accepthiredata', function (req, res) {
     console.log(req.body)
@@ -128,5 +149,11 @@ app.post('/Deletework', function (req, res) {
     Hire.findByIdAndDelete(req.body._id).then(function(){
         res.json("Request Delete");
     });
+})
+app.post('/profile',function(req,res){
+    User.findById(req.body._id).then(function(value){
+        res.json(value);
+    }
+        )
 })
 app.listen(9000);

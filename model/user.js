@@ -27,6 +27,13 @@ const User = mongoose.model('User',
         },
         profilepic:{
             type: String
+        },
+        lattitude:{
+            type:String
+        },
+        longitude:{
+            type:String
         }
+        
     });
     module.exports = User;  
